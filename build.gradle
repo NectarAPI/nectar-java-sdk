@@ -1,0 +1,84 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'maven-publish'
+    id 'signing'
+}
+
+group 'software.nectar.java'
+archivesBaseName = 'nectar-api-sdk'
+version '0.9.2-alpha'
+
+description = """Nectar Java SDK"""
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+mainClassName = 'software.nectar.java.Nectar'
+
+repositories {
+    maven { url "https://maven.restlet.com" }
+    mavenCentral()
+}
+
+dependencies {
+    implementation group: 'org.json', name: 'json', version: '20231013'
+    implementation group: 'org.bouncycastle', name: 'bcpkix-jdk18on', version:'1.77'
+    implementation 'commons-codec:commons-codec:1.16.0'
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'junit:junit:4.13.1'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+            pom {
+                name = 'Nectar API SDK'
+                description = 'An API to use Nectar to generate STS prepaid tokens'
+                url = 'https://nectar.software'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'reagan'
+                        name = 'Reagan Mbitiru'
+                        email = 'reagan@nectar.software'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git://bitbucket.org:nectar_co_ke/nectar-java-sdk.git'
+                    developerConnection = 'scm:git:ssh://bitbucket.org:nectar_co_ke/nectar-java-sdk.git'
+                    url = 'https://bitbucket.org/nectar_co_ke/nectar-java-sdk/src/'
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            credentials {
+                username = "$ossrhUsername"
+                password = "$ossrhPassword"
+            }
+        }
+    }
+}
+
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
+signing {
+    sign publishing.publications.maven
+}
