@@ -1,103 +1,125 @@
- package software.nectar.java;
+# Nectar Java SDK
+
+Nectar Java SDK is a wrapper that allows generation of IEC 62055-41 STSEd2 compliant prepaid tokens using the Nectar API.
+
+## Installation
+
+Use the package manager [gradle](https://gradle.org) to install this package by adding the following line to your *build.gradle*.
+
+```bash
+implementation 'software.nectar.java:nectar-java-sdk:3.0.1-alpha'
+```
+
+## Example Usage
+
+The API calls below use example parameters to show how the SDK is used. Please refer to the documentation for descriptions of the parameters that need to be applied to the API calls below.
+
+```java
+package software.nectar.java;
 
 import software.nectar.java.models.*;
 
-import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class NectarTest {
 
-    private final String KEY = "b4d86649-c11a-4b43-b499-8dd950dc51a9";
-    private final String SECRET = "2fb70fe3-8800-449c-a08e-108e22228da5";
-    private final String HOST = "http://localhost:2000";
-
-    private Instant generationTime = Instant.parse("2018-05-16T07:29:00.00Z");
-    int wmFactor = 10, randomNo = 5;
-    boolean isStid = false, debug = false;
-    String drn = "47500150231", nativeConfigRef = "cbf43d1f-8c2d-44a0-95a9-9c3c13ec846c",
-    prismThriftConfigRef = "c2fe451d-c20d-41e5-88d2-2a88a2a71c79";
+    // Get from the Nectar API Portal at https://portal.nectar.software/credentials
+    private final String KEY = "<key>";
+    private final String SECRET = "<secret>";
+    
+    private final String HOST = "<host_ip>";
 
     private Nectar nectar = new Nectar(KEY, SECRET, HOST);
 
     public static void main(String[] args) {
         try {
             NectarTest test = new NectarTest();
-//            test.getToken();
-//            test.generateNativeElectricityToken();
-//            test.generateNativeWaterToken();
-//            test.generateNativeGasToken();
-//            test.generateNativeInitiateMeterTestDisplay10Token();
-//            test.generateNativeInitiateMeterTestDisplay11Token();
-//            test.generateNativeSetMaximumPowerLimitToken();
-//            test.generateNativeClearCreditToken();
-//            test.generateNativeSetTariffRateToken();
-//            test.generateNativeDecoderKeyTokens();
-//            test.generateNativeClearTamperConditionToken();
-//            test.generateNativeSetMaximumPhasePowerUnbalanceLimitToken();
-//            test.generateNativeSetWaterMeterFactorToken();
-//
-//            test.generatePrismThriftElectricityToken();
-//            test.generatePrismThriftWaterToken();
-//            test.generatePrismThriftGasToken();
-//            test.generatePrismThriftInitiateMeterTestDisplay10Token();
-//            test.generatePrismThriftInitiateMeterTestDisplay11Token();
-//            test.generatePrismThriftSetMaximumPowerLimitToken();
-//            test.generatePrismThriftClearCreditToken();
-//            test.generatePrismThriftSetTariffRateToken();
-//            test.generatePrismThriftDecoderKeyTokens();
-//            test.generatePrismThriftClearTamperConditionToken();
-//            test.generatePrismThriftSetMaximumPhasePowerUnbalanceLimitToken();
-//            test.generatePrismThriftSetWaterMeterFactorToken();
-//            test.decodeNativeToken();
-//            test.decodePrismThriftToken();
-//
-//            test.getUser();
-//            test.createUser();
-//            test.updateUser();
-//            test.deleteUser();
-//
-//            test.getPublicKeys();
-//            test.createPublicKey();
-//            test.activatePublicKey();
-//            test.deactivatePublicKey();
-//
-//            test.getNotifications();
-//            test.setNotificationsReadStatus();
-//
-//            test.getCredits();
-//            test.getTransactions();
-//
-//            test.getCredentials();
-//            test.activateCredentials();
-//            test.deactivateCredentials();
-//
-//            test.getUtilities();
-//            test.getUtility();
-//            test.getMetersForUtility();
-//            test.createUtility();
-//            test.updateUtility();
-//            test.activateUtility();
-//            test.deactivateUtility();
+            test.getToken();
 
-//            test.getMeter();
-//            test.createMeter();
-//            test.updateMeter();
-//            test.activateMeter();
-//            test.deactivateMeter();
+            /**
+             * Generate Native Tokens
+             * Native tokens are tokens generated 
+             * by Nectar API's virtual HSM.
+             */
+            test.generateNativeElectricityToken();
+            test.generateNativeWaterToken();
+            test.generateNativeGasToken();
+            test.generateNativeInitiateMeterTestDisplay10Token();
+            test.generateNativeInitiateMeterTestDisplay11Token();
+            test.generateNativeSetMaximumPowerLimitToken();
+            test.generateNativeClearCreditToken();
+            test.generateNativeSetTariffRateToken();
+            test.generateNativeDecoderKeyTokens();
+            test.generateNativeClearTamperConditionToken();
+            test.generateNativeSetMaximumPhasePowerUnbalanceLimitToken();
+            test.generateNativeSetWaterMeterFactorToken();
 
-//            test.getSubscriber();
-//            test.createSubscriber();
-//            test.updateSubscriber();
-//            test.activateSubscriber();
+            /**
+             * Generate Prism Thrift Tokens
+             * Prism Thrift tokens are tokens generated via 
+             * an integration of Nectar API and a PRISM HSM 
+             * via the Thrift API.
+             */
+            test.generatePrismThriftElectricityToken();
+            test.generatePrismThriftWaterToken();
+            test.generatePrismThriftGasToken();
+            test.generatePrismThriftInitiateMeterTestDisplay10Token();
+            test.generatePrismThriftInitiateMeterTestDisplay11Token();
+            test.generatePrismThriftSetMaximumPowerLimitToken();
+            test.generatePrismThriftClearCreditToken();
+            test.generatePrismThriftSetTariffRateToken();
+            test.generatePrismThriftDecoderKeyTokens();
+            test.generatePrismThriftClearTamperConditionToken();
+            test.generatePrismThriftSetMaximumPhasePowerUnbalanceLimitToken();
+            test.generatePrismThriftSetWaterMeterFactorToken();
+            test.decodeNativeToken();
+            test.decodePrismThriftToken();
+
+            test.getUser();
+            test.createUser();
+            test.updateUser();
+            test.deleteUser();
+
+            test.getPublicKeys();
+            test.createPublicKey();
+            test.activatePublicKey();
+            test.deactivatePublicKey();
+
+            test.getNotifications();
+            test.setNotificationsReadStatus();
+
+            test.getCredits();
+            test.getTransactions();
+
+            test.getCredentials();
+            test.activateCredentials();
+            test.deactivateCredentials();
+
+            test.getUtilities();
+            test.getUtility();
+            test.getMetersForUtility();
+            test.createUtility();
+            test.updateUtility();
+            test.activateUtility();
+            test.deactivateUtility();
+
+            test.getMeter();
+            test.createMeter();
+            test.updateMeter();
+            test.activateMeter();
+            test.deactivateMeter();
+
+            test.getSubscriber();
+            test.createSubscriber();
+            test.updateSubscriber();
+            test.activateSubscriber();
             test.deactivateSubscriber();
 
-//            test.getConfiguration();
-//            test.createConfiguration();
-//            test.activateConfiguration();
-//            test.deactivateConfiguration();
+            test.getConfiguration();
+            test.createConfiguration();
+            test.activateConfiguration();
+            test.deactivateConfiguration();
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -135,7 +157,7 @@ public class NectarTest {
         int manufacturerCode = 58;
         Token generatedToken =  nectar.getTokenFactory()
                 .generateNativeInitiateMeterTestDisplay10Token(generationTime, control, manufacturerCode, isStid, drn,
-                         nativeConfigRef, false);
+                        nativeConfigRef, false);
         System.out.print(generatedToken);
     }
 
@@ -180,7 +202,7 @@ public class NectarTest {
         String newIssuerIdentificationNo = "600727";
         int ro = 0;
 
-       List<Token> generatedTokens = nectar.getTokenFactory()
+        List<Token> generatedTokens = nectar.getTokenFactory()
                 .generateNativeDecoderKeyTokens(generationTime,
                         newVendingKey, newSupplyGroupCode, newTariffIndex, newKeyRevisionNo,
                         newKeyType, newKeyExpiryNo, newDrn, newIssuerIdentificationNo, ro,
@@ -272,7 +294,7 @@ public class NectarTest {
 
     private void generatePrismThriftDecoderKeyTokens() throws Exception {
         boolean allow3Kct = false;
-        String newSupplyGroupCode = "600675";
+        String newSupplyGroupCode = "123456";
         String newTariffIndex = "01";
         int newKeyRevisionNo = 1;
 
@@ -331,7 +353,7 @@ public class NectarTest {
 
         String createdUserRef = nectar.getUsersFactory()
                 .createUser(firstName, lastName, username, password,
-                            phoneNo, imageUrl, email, true);
+                        phoneNo, imageUrl, email, true);
         System.out.println(String.format("Create User\n====================\nRef: %s\n", createdUserRef));
     }
 
@@ -345,7 +367,7 @@ public class NectarTest {
         String email = "user@email.com";
 
         nectar.getUsersFactory().updateUser(firstName, lastName, username, password,
-                                            phoneNo, imageUrl, email, true);
+                phoneNo, imageUrl, email, true);
         System.out.println(String.format("Update User\n====================\n"));
     }
 
@@ -365,7 +387,7 @@ public class NectarTest {
         String key = "MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAgZqr+BXGwQWe5UMY5CLM6a+XbFIZT0CAy/hx8Adhlb0PrwiQ9w4NNy9YMGTyvVTRyKBRgEjFNTJKBBDPFpWJyMa5BmL3JKmGZIYyWaggAILC2QbnEo2GqKbGfys3kiD/HfKCbxwohhNLieI+ULXw46IIriUEQCtx+AZyYTr620E26u1ANMvKzJLZQxTawUDNgy9S/YHSpMMftTF3LbEK5F2J33tLEbRBOVY4fvPL8w3YCx1Wu911+xz7UyVjdLDn26YoSl7+Fz5zZdwdhRMr+hDF8CInhbtAb1/cptFW4VBFVjDmHWn61bHUITbLWK5WRUzYoFWso4yOFYuq7JSMVYBKJE+27aMKZgPWiVrYaZVROxWoge7H//O+/NpWhyj9/K2Mzo6QzcLPTmw/1KN7CvIFIXDo+5wNZ+XFHuDeOaWrd2sMKvqXpEusdZYiuxy0e7Sze8/O5ada3BgFiM50DR1AIjZGONKEfAi2cGRXpBfCBUAU64RMeevobkrDzOSXCDy19o9wTfk4eRiWsuPIGm6zsJqA73+dW0KcSylBF5eaoPQbw/8WJjWClqlpQLfiKwnL2mjk6oFDAtVBfeRNjwd7Dyy1TvdbRJ5QwkfSHuwU2TphwPu/uMRJPOxvtMwgC3LXKnFEB2O9EzEDCrPmv6rOJn1i0tByDcNT0gL49MMCAwEAAQ==";
         boolean activated = true;
         PublicKey publicKey = nectar.getPublicKeysFactory()
-                                    .createPublicKey(name, key, activated);
+                .createPublicKey(name, key, activated);
         System.out.println(String.format("Create Public Key\n====================\n%s\n", publicKey));
     }
 
@@ -544,7 +566,7 @@ public class NectarTest {
 
     public void createConfiguration() throws Exception {
         String yamlConfig = "---\n" +
-                "name: example_config\n" +
+                "name: example_native_config\n" +
                 "key_expiry_no: 255\n" +
                 "encryption_algorithm: sta\n" +
                 "token_carrier_type: numeric\n" +
@@ -574,53 +596,14 @@ public class NectarTest {
         System.out.println("Deactivate Configuration\n====================\n");
         nectar.getConfigurationsFactory().deactivateConfiguration("ac3380d8-5d85-4161-92e5-03c1dc62de3d");
     }
-
-//    private void generateTokens() throws Exception {
-//        String configRef = "cbf43d1f-8c2d-44a0-95a9-9c3c13ec846c";
-//        String[] meterNos = {
-////                "47500148425",
-////                "47500148292",
-////                "47500148219",
-////                "47500148474",
-////                "47500148235",
-////                "47500148177",
-//                "47500148201",
-//                "47500148334",
-//                "47500148391",
-//                "47500148383",
-//                "47500148359",
-//                "47500148243",
-//                "47500148466",
-//                "47500148268",
-////                "47500148250",
-////                "47500148318",
-////                "47500148367",
-////                "47500148342",
-////                "47500148227",
-////                "47500148276",
-////                "47500148433",
-////                "47500148193",
-////                "47500148409",
-////                "47500148326",
-////                "47500148185",
-////                "47500148417"
-//        };
-//        Instant generationTime = Instant.parse("2022-01-01T00:00:00.00Z");
-//
-//        for (String meter : meterNos) {
-//            System.out.println(String.format("\n------------------------\n" +
-//                    "Meter: %12s\n------------------------", meter));
-////            System.out.println(String.format("\nCredit\n"));
-////            for (int count = 0; count < 50 ; count++) {
-////                System.out.println(generateCreditToken(meter, generationTime, configRef));
-////                generationTime = generationTime.plusSeconds(60);
-////            }
-//
-//            System.out.println(String.format("\nClear Tamper\n"));
-//            for (int count = 0; count < 10 ; count++) {
-//                System.out.println(generateNativeClearTamperToken(meter, generationTime, configRef));
-//                generationTime = generationTime.plusSeconds(60);
-//            }
-//        }
-//    }
 }
+
+```
+
+## Contributing
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.
+
+## License
+[MIT](https://choosealicense.com/licenses/mit/)
